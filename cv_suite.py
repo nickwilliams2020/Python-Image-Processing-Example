@@ -4,7 +4,7 @@ import errno
 import numpy as np
 from matplotlib import pyplot as plt
 from PIL import ImageTk, Image
-from tkinter import filedialog, simpledialog, Tk, Label, Button, messagebox, N, S, W, E
+from tkinter import filedialog, simpledialog, Tk, Label, Button, messagebox, N, S, W, E, PhotoImage
 
 
 class CvSuite:
@@ -67,9 +67,9 @@ class CvSuite:
         if self.original_image is not None:
             original_image_in_grayscale = cv2.cvtColor(self.original_image_file, cv2.COLOR_BGR2GRAY)
             edge_detected_image = cv2.Canny(original_image_in_grayscale, 50, 100)
-            edge_detected_image = Image.fromarray(edge_detected_image)
-            self.processed_image = ImageTk.PhotoImage(edge_detected_image)
-            self.resize_images()
+            self.processed_image = Image.fromarray(edge_detected_image)
+            self.resize_processed_image()
+            self.processed_image = ImageTk.PhotoImage(self.processed_image)
             self.update_panels()
         else:
             self.select_image()
@@ -80,7 +80,7 @@ class CvSuite:
             self.original_image_file = cv2.imread(self.master.filename)
             self.original_image = self.original_image_file
             self.processed_image = self.original_image_file
-            self.resize_images()
+            self.resize_original_image()
             self.transform_original_image_to_image_tk_photo_image()
             self.processed_image = self.original_image
             self.draw_image_panels()
@@ -100,12 +100,18 @@ class CvSuite:
     def split_filename_between_path_and_format(self):
         self.image_path, self.image_format = os.path.splitext(self.master.filename)
 
-    def resize_images(self):
+    def resize_original_image(self):
         old_dimensions = self.original_image_file.shape[:2]
         scale_factor = float(self.max_image_size) / float(max(old_dimensions))
 
         new_image_dimensions = tuple([int(dimension * scale_factor) for dimension in old_dimensions])
         self.original_image = cv2.resize(self.original_image_file, (new_image_dimensions[1], new_image_dimensions[0]))
+
+    def resize_processed_image(self):
+        old_dimensions = self.processed_image.size
+        scale_factor = float(self.max_image_size) / float(max(old_dimensions))
+        new_image_dimensions = tuple([int(dimension * scale_factor) for dimension in old_dimensions])
+        self.processed_image = self.processed_image.resize(new_image_dimensions, Image.ANTIALIAS)
 
     def transform_original_image_to_image_tk_photo_image(self):
         self.original_image = cv2.cvtColor(self.original_image, cv2.COLOR_BGR2RGB)
