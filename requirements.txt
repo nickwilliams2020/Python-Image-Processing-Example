@@ -1,1 +1,6 @@
-opencv
+opencv-python
+numpy
+matplotlib
+
+
+

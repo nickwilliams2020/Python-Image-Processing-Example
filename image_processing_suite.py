@@ -7,7 +7,7 @@ Created on Fri Jan 19 11:29:37 2018
 import os
 import errno
 import numpy as np
-import opencv as cv2
+import cv2
 import tkinter
 from matplotlib import pyplot as plt
 from PIL import ImageTk, Image
@@ -19,7 +19,7 @@ class NIHCVGUI:
     max_size = 500
     img_path = None
     img_format = None
-    desktop = os.path.join(os.environ["HOMEPATH"], "Desktop")
+    desktop = os.path.join(os.environ["HOME"], "Desktop")
 
     def __init__(self, master):
         self.master = master
