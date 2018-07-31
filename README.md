@@ -27,12 +27,5 @@ python3 cv_suite.py
 - TKinter    
 - [OpenCV](https://opencv.org/)  
 - [Pillow](https://pillow.readthedocs.io/en/5.1.x/)
-
-## Contributing
-
-## Versioning
-
 ## Authors
 * [Nicholas Williams](https://github.com/nickwilliams2020)
-
-## Aknowledgements
